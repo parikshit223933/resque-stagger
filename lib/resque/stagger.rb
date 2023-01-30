@@ -8,8 +8,7 @@ module Resque
       end
 
       def enqueue(klass, *args)
-        # ::Resque.enqueue_at(current_enqueue_at, klass, *args)
-        puts current_enqueue_at
+        ::Resque.enqueue_at(current_enqueue_at, klass, *args)
       end
 
       private
