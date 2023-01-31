@@ -25,18 +25,18 @@ You can use `Resque::Staggered` to enqueue jobs with a stagger effect.
 ```ruby
 require "resque/stagger"
 
-staggered_instance = Resque::Staggered.new(per_second: 2, start_from: Time.now + 5.seconds)
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 1.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 1.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 2.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 2.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 3.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 3.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 4.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 4.second
-staggered_instance.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 5.second
+staggered = Resque::Staggered.new(per_second: 2, start_from: Time.now + 5.seconds)
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 1.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 1.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 2.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 2.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 3.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 3.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 4.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 4.second
+staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 5.second
 
 ```
 
