@@ -10,6 +10,9 @@ module Resque
       # @param options [Hash] the options for the stagger effect.
       # @option options [Time] :start_from starting time for enqueuing jobs.
       # @option options [Integer] :per_second number of jobs to enqueue per second.
+      # @option options [String] :queue name of the queue to enqueue jobs in.
+      #
+      # @return [void]
       def initialize(**options)
         @options = options
       end
@@ -18,15 +21,21 @@ module Resque
       #
       # @param klass [Class] the job class to be enqueued.
       # @param args [Array] the arguments for the job.
+      #
+      # @return [void]
       def enqueue(klass, *args)
-        ::Resque.enqueue_at(current_enqueue_at, klass, *args)
+        if queue.present?
+          ::Resque.enqueue_at_with_queue(queue, current_enqueue_at, klass, *args)
+        else
+          ::Resque.enqueue_at(current_enqueue_at, klass, *args)
+        end
       end
 
       private
 
       # Calculates the time at which the job should be enqueued.
       #
-      # @return [Time] the enqueue time for the job.
+      # @return [Time, ActiveSupport::Duration] the enqueue time for the job.
       def current_enqueue_at
         return starting_from if per_second.to_i.zero?
         return @last_enqueued_at = starting_from if @last_enqueued_at.nil?
@@ -50,6 +59,13 @@ module Resque
       # @return [Integer, nil] the number of jobs to enqueue per second.
       def per_second
         @options[:per_second] || nil
+      end
+
+      # Returns the name of the queue to enqueue jobs in.
+      #
+      # @return [String, nil] the name of the queue, or nil if not specified.
+      def queue
+        @options[:queue] || nil
       end
     end
   end
