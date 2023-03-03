@@ -78,3 +78,4 @@ module Resque
     end
   end
 end
+Resque.prepend(Resque::Staggered)
