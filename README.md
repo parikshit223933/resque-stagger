@@ -8,7 +8,7 @@ in [Resque](https://github.com/resque/resque).
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'resque-stagger'
+gem 'resque-stagger', require: 'resque/staggered'
 ```
 
 And then execute:
