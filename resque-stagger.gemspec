@@ -1,6 +1,6 @@
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "resque/stagger/version"
+require "resque/staggered/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "resque-stagger"
@@ -33,5 +33,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
 
   spec.add_runtime_dependency 'resque', '>= 1.25'
+  spec.add_runtime_dependency 'activesupport', '>= 5.1.7'
   spec.add_runtime_dependency 'resque-scheduler', '>= 4.4.0'
 end

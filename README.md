@@ -1,6 +1,7 @@
-# Resque Stagger
+# Resque-Stagger
 
-A Resque plugin for adding a stagger effect to enqueuing jobs.
+resque-stagger is a simple Ruby gem that allows you to stagger the enqueuing of jobs
+in [Resque](https://github.com/resque/resque).
 
 ## Installation
 
@@ -12,43 +13,48 @@ gem 'resque-stagger'
 
 And then execute:
 
-    $ bundle install
+```shell
+bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install resque-stagger
+```shell
+gem install resque-stagger
+```
 
 ## Usage
 
-You can use `Resque::Staggered` to enqueue jobs with a stagger effect.
-
 ```ruby
-require "resque/stagger"
+require 'resque/staggered'
 
-staggered = Resque::Staggered.new(per_second: 2, start_from: Time.now + 5.seconds, queue: :low)
+# Set up a new staggered queue
+queue = Resque::Staggered.new(
+  start_from: Time.now + 60, # Start queuing jobs 60 seconds from now
+  number_of_jobs: 10, # Enqueue 10 jobs per time interval
+  unit_time_in_seconds: 300, # Interval of 5 minutes between each set of jobs
+  queue: 'low' # Enqueue jobs in the 'low' queue
+)
 
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 1.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 1.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 2.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 2.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 3.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 3.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 4.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 4.second
-staggered.enqueue(MyJob, "arg1", "arg2") # This will be enqueued at Time.now + 5.seconds + 5.second
-
+# Enqueue a job with arguments
+queue.enqueue(MyJobClass, arg1, arg2, arg3)
 ```
 
-The Staggered class takes three optional parameters: :per_second,  :start_from and :queue.
+- The code sets up a new staggered queue using Resque::Staggered and then enqueues a job with arguments using the
+  enqueue method of the staggered queue.
 
-> **:per_second** is the number of jobs to enqueue per second. The default value is nil, which means no limit on the number of jobs to enqueue per second.
+- Based on the options passed to the Resque::Staggered constructor, the staggered queue will enqueue 10 jobs every 5
+  minutes (300 seconds) starting 60 seconds from the current time, and enqueue the jobs in the "low" queue.
 
-> **:start_from** is the starting time for enqueuing jobs. The default value is Time.current.
-
-> **:queue** is the queue you want to enqueue the staggered job at (when its time comes). Default value of queue is `nil` which is based on the assumption that the job class will be defining this queue explicitly and there is no need to give the queue name separately.
+- So, if this code is run at 12:00 PM, the first set of 10 jobs will be enqueued at 12:01 PM (60 seconds later), the
+  second set of 10 jobs will be enqueued at 12:06 PM (5 minutes later), the third set of 10 jobs will be enqueued at 12:
+  11 PM (5 minutes later), and so on.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/parikshit223933/resque-stagger. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the Contributor Covenant code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/parikshit223933/resque-stagger.
+
+## License
+
+The gem is available as open source under the terms of
+the [MIT License](https://github.com/parikshit223933/resque-stagger/blob/master/LICENSE.txt).
