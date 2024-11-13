@@ -1,10 +1,10 @@
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "resque/staggered/version"
+require "resque/plugins/stagger/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "resque-stagger"
-  spec.version       = Resque::Stagger::VERSION
+  spec.version       = Resque::Plugins::Stagger::VERSION
   spec.authors       = ["Parikshit Singh"]
   spec.email         = ["pk223933@gmail.com"]
 

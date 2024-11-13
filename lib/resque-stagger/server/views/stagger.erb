@@ -1,0 +1,56 @@
+<!-- lib/resque/staggered/views/staggered/index.erb -->
+
+<h2>Resque Staggered Jobs Management</h2>
+
+<% if @error %>
+  <div class="alert alert-danger"><%= URI.decode(@error) %></div>
+<% end %>
+
+<% if @success %>
+  <div class="alert alert-success"><%= URI.decode(@success) %></div>
+<% end %>
+
+<form action="/resque/staggered/restagger" method="post" class="form-horizontal">
+  <div class="form-group">
+    <label for="job_class" class="col-sm-2 control-label">Job Class Name</label>
+    <div class="col-sm-10">
+      <input type="text" name="job_class" id="job_class" class="form-control" placeholder="Enter Job Class Name" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="start_from" class="col-sm-2 control-label">Start From</label>
+    <div class="col-sm-10">
+      <input type="datetime-local" name="start_from" id="start_from" class="form-control" value="<%= Time.current.strftime('%Y-%m-%dT%H:%M') %>">
+      <p class="help-block">Time to start enqueueing jobs from. Defaults to current time.</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="number_of_jobs" class="col-sm-2 control-label">Number of Jobs Per Interval</label>
+    <div class="col-sm-10">
+      <input type="number" name="number_of_jobs" id="number_of_jobs" class="form-control" min="1" value="10" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="unit_time_in_seconds" class="col-sm-2 control-label">Interval Time (seconds)</label>
+    <div class="col-sm-10">
+      <input type="number" name="unit_time_in_seconds" id="unit_time_in_seconds" class="form-control" min="1" value="60" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="queue" class="col-sm-2 control-label">Queue Name (Optional)</label>
+    <div class="col-sm-10">
+      <input type="text" name="queue" id="queue" class="form-control" placeholder="Enter Queue Name">
+      <p class="help-block">Specify the queue to enqueue the jobs in. If left blank, all queues are considered.</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">Restagger Jobs</button>
+    </div>
+  </div>
+</form>
